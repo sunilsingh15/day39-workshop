@@ -1,7 +1,9 @@
 package sg.edu.nus.iss.server.service;
 
 import java.io.StringReader;
+import java.util.Date;
 
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -84,16 +86,32 @@ public class ServerService {
         JsonObject result = reader.readObject();
         JsonObject character = result.getJsonObject("data").getJsonArray("results").get(0).asJsonObject();
         JsonObject thumbnail = character.getJsonObject("thumbnail");
-        String imageUrl = thumbnail.getString("path") + "." + thumbnail.getString("extension"); 
+        String imageUrl = thumbnail.getString("path") + "." + thumbnail.getString("extension");
 
         JsonObject returnObj = Json.createObjectBuilder()
-                            .add("id", character.getInt("id"))
-                            .add("name", character.getString("name"))
-                            .add("description", character.getString("description"))
-                            .add("image", imageUrl)
-                            .build();
+                .add("id", character.getInt("id"))
+                .add("name", character.getString("name"))
+                .add("description", character.getString("description"))
+                .add("image", imageUrl)
+                .build();
 
         return returnObj;
+    }
+
+    public void postCommentToDB(String comment) {
+
+        // convert comment to JSON object
+        JsonReader reader = Json.createReader(new StringReader(comment));
+        JsonObject commentObj = reader.readObject();
+
+        Document mainDoc = new Document();
+        Document commentDoc = new Document();
+
+        commentDoc.append("text", commentObj.getString("comment"));
+        commentDoc.append("timestamp", new Date().toString());
+
+        mainDoc.append("id", commentObj.getInt("id"));
+
     }
 
 }

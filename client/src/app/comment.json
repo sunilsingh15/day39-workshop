@@ -1,0 +1,22 @@
+{
+  "id": 1009610,
+  "comments": [
+    {
+      "text": "Spider-Man sucks",
+      "timestamp": "Tue 29 Aug 15:35:31 2023"
+    },
+    {
+      "text": "Spider-Man rocks",
+      "timestamp": "Tue 29 Aug 15:36:22 2023"
+    }
+  ]
+}
+
+// Angular POST request should look like this:
+
+{
+  "id": 1009610,
+  "comment": "Spider-Man sucks"
+}
+
+

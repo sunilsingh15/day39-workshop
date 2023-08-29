@@ -14,5 +14,8 @@ export class SearchService {
     return this.http.get('http://localhost:8080/api/characters', { params });
   }
 
-  getC
+  getCharacterById(id: string): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/character/${id}`);
+  }
+  
 }

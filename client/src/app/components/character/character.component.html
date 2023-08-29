@@ -1,1 +1,9 @@
-<p>character works!</p>
+<div *ngIf="character; else loading">
+  <img src="{{ character.image }}" style="width: 300px;" />
+  <h1>{{ character.name }}</h1>
+  <p>{{ character.description }}</p>
+</div>
+
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
