@@ -1,0 +1,15 @@
+<table>
+  <tr>
+    <td><textarea cols="30" rows="10" #comment></textarea></td>
+    <td>
+      <button type="button" [routerLink]="['/character/'+ characterId ]">
+        Cancel
+      </button>
+    </td>
+    <td>
+      <button type="submit" (click)="submitComment()">Add Comment</button>
+    </td>
+  </tr>
+</table>
+
+<p>{{ msg }}</p>

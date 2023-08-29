@@ -4,6 +4,15 @@
   <p>{{ character.description }}</p>
 </div>
 
+<table *ngIf="comments">
+  <tr *ngFor="let c of comments">
+    <td>{{c.text}}</td>
+    <td>{{c.timestamp}}</td>
+  </tr>
+</table>
+
+<button type="button" [routerLink]="['/character/' + characterId + '/comment']">Leave a Comment</button>
+
 <ng-template #loading>
   <p>Loading...</p>
 </ng-template>
