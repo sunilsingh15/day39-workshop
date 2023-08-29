@@ -1,1 +1,11 @@
 <h2>Results for: <code>{{ query }}</code></h2>
+
+<div *ngIf="searchResults.length > 0; else noItems">
+  <ul>
+    <li *ngFor="let item of searchResults"><a routerLink="/character/{{item.id}}">{{ item.name }}</a></li>
+  </ul>
+</div>
+
+<ng-template #noItems>
+  <p>Loading...</p>
+</ng-template>

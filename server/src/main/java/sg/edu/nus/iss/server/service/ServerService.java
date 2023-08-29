@@ -14,7 +14,6 @@ import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
 import jakarta.json.JsonValue;
-import lombok.val;
 
 @Service
 public class ServerService {
@@ -66,16 +65,35 @@ public class ServerService {
             finalResults.add(valuesToAdd);
         }
 
-        // List<JsonObject> finalResults2 = searchResults.stream()
-        //         .map(JsonValue::asJsonObject)
-        //         .map(valueObj -> Json.createObjectBuilder()
-        //                 .add("id", valueObj.getInt("id"))
-        //                 .add("name", valueObj.getString("name"))
-        //                 .build())
-        //         .collect(Collectors.toList());
-
         return finalResults.build();
 
+    }
+
+    public JsonObject getCharacterByID(String id) {
+
+        String urlToCall = UriComponentsBuilder
+                .fromUriString(apiURL + "/" + id)
+                .queryParam("ts", 1)
+                .queryParam("apikey", publicKey)
+                .queryParam("hash", hash)
+                .toUriString();
+
+        ResponseEntity<String> response = template.getForEntity(urlToCall, String.class);
+
+        JsonReader reader = Json.createReader(new StringReader(response.getBody()));
+        JsonObject result = reader.readObject();
+        JsonObject character = result.getJsonObject("data").getJsonArray("results").get(0).asJsonObject();
+        JsonObject thumbnail = character.getJsonObject("thumbnail");
+        String imageUrl = thumbnail.getString("path") + "." + thumbnail.getString("extension"); 
+
+        JsonObject returnObj = Json.createObjectBuilder()
+                            .add("id", character.getInt("id"))
+                            .add("name", character.getString("name"))
+                            .add("description", character.getString("description"))
+                            .add("image", imageUrl)
+                            .build();
+
+        return returnObj;
     }
 
 }
